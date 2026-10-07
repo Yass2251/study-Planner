@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Planner — Kelola Tugas Sekolahmu</title>
+  <meta name="description" content="Study Planner — aplikasi perencana belajar modern untuk siswa SMA/SMK." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
+</head>
+<body>
+  <div class="app">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <a href="#" class="logo" id="logoBtn">
+          <span class="logo-icon">📚</span>
+          <span class="logo-text">Study Planner</span>
+        </a>
+
+        <p class="sidebar-label">MENU</p>
+        <nav class="nav" id="mainNav">
+          <button class="nav-item active" data-view="dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-view="all">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>Semua Tugas</span>
+            <span class="nav-count" id="countAll">0</span>
+          </button>
+          <button class="nav-item" data-view="today">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Hari Ini</span>
+            <span class="nav-count" id="countToday">0</span>
+          </button>
+          <button class="nav-item" data-view="upcoming">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Mendatang</span>
+          </button>
+          <button class="nav-item" data-view="done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Selesai</span>
+          </button>
+        </nav>
+
+        <div class="progress-mini">
+          <p class="sidebar-label">YOUR PROGRESS</p>
+          <div class="progress-mini-card">
+            <div class="progress-mini-head">
+              <span id="sidebarProgressPct">0% tugas selesai</span>
+            </div>
+            <div class="mini-bar"><div class="mini-fill" id="sidebarProgressFill"></div></div>
+            <p class="mini-sub" id="sidebarProgressSub">Tetap semangat! 🎯</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="nav-item" id="settingsBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+        <div class="theme-row">
+          <span class="theme-label">Tampilan</span>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-track"><span class="theme-thumb"></span></span>
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
+        <div class="sidebar-user">
+          <div class="avatar-sm">D</div>
+          <div class="sidebar-user-info">
+            <strong>Dias</strong>
+            <span>Siswa SMA</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="icon-btn hamburger" id="hamburger" aria-label="Menu">☰</button>
+          <div>
+            <p class="date-line" id="todayDate">Rabu, 7 Oktober 2026</p>
+            <h1>Halo, Dias 👋</h1>
+            <p class="subtitle">Siap menyelesaikan tugas hari ini?</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="searchInput" placeholder="Cari tugas, mapel..." autocomplete="off" />
+          </div>
+          <button class="icon-btn notif" id="notifBtn" aria-label="Notifikasi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="dot" id="notifDot"></span>
+          </button>
+          <div class="avatar" title="Dias">D</div>
+        </div>
+      </header>
+
+      <!-- Notif dropdown -->
+      <div class="notif-panel" id="notifPanel">
+        <h4>Notifikasi</h4>
+        <div id="notifList"></div>
+      </div>
+
+      <!-- Hero -->
+      <section class="hero" id="heroSection">
+        <div class="hero-text">
+          <span class="hero-pill">✨ Semester baru, semangat baru</span>
+          <h2>Rencanakan belajar,<br />selesaikan tugas.</h2>
+          <p>Kelola tugas sekolahmu dengan lebih mudah dan tetap produktif setiap hari.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="addTaskBtnHero">
+              <span class="plus">+</span> Tambah Tugas
+            </button>
+            <button class="btn btn-ghost" id="viewTodayBtn">Lihat hari ini →</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 320 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="30" width="170" height="200" rx="18" fill="#fff" opacity=".95"/>
+            <rect x="60" y="55" width="110" height="14" rx="7" fill="#4F46E5" opacity=".9"/>
+            <rect x="60" y="80" width="130" height="10" rx="5" fill="#E0E7FF"/>
+            <rect x="60" y="98" width="130" height="10" rx="5" fill="#E0E7FF"/>
+            <rect x="60" y="125" width="90" height="34" rx="10" fill="#EEF2FF"/>
+            <circle cx="74" cy="142" r="7" fill="none" stroke="#4F46E5" stroke-width="3"/>
+            <path d="M71 142l2.5 2.5L78 140" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="88" y="134" width="58" height="8" rx="4" fill="#C7D2FE"/>
+            <rect x="88" y="144" width="40" height="6" rx="3" fill="#E0E7FF"/>
+            <rect x="60" y="168" width="90" height="34" rx="10" fill="#F0FDF4"/>
+            <circle cx="74" cy="185" r="7" fill="none" stroke="#22C55E" stroke-width="3"/>
+            <rect x="88" y="177" width="58" height="8" rx="4" fill="#86EFAC"/>
+            <rect x="88" y="187" width="40" height="6" rx="3" fill="#BBF7D0"/>
+            <circle cx="245" cy="70" r="38" fill="#FACC15" opacity=".9"/>
+            <circle cx="245" cy="70" r="48" fill="none" stroke="#FACC15" stroke-width="2" stroke-dasharray="6 8" opacity=".5"/>
+            <rect x="215" y="140" width="75" height="75" rx="20" fill="#22C55E"/>
+            <path d="M235 177l12 12 20-24" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="90" cy="232" r="6" fill="#F472B6"/>
+            <circle cx="250" cy="225" r="4" fill="#60A5FA"/>
+            <circle cx="285" cy="120" r="5" fill="#A78BFA"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon blue">📋</span>
+            <span class="stat-delta up">+20% minggu ini</span>
+          </div>
+          <p class="stat-num" id="statTotal">0</p>
+          <p class="stat-label">Total Tugas</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon amber">⏳</span>
+            <span class="stat-delta" id="deltaTodo">perlu perhatian</span>
+          </div>
+          <p class="stat-num" id="statTodo">0</p>
+          <p class="stat-label">Belum Selesai</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon indigo">⚡</span>
+            <span class="stat-delta up">aktif dikerjakan</span>
+          </div>
+          <p class="stat-num" id="statDoing">0</p>
+          <p class="stat-label">Sedang Dikerjakan</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon green">✅</span>
+            <span class="stat-delta up" id="deltaDone">🎉 mantap!</span>
+          </div>
+          <p class="stat-num" id="statDone">0</p>
+          <p class="stat-label">Selesai</p>
+        </div>
+      </section>
+
+      <!-- Progress -->
+      <section class="progress-card">
+        <div class="progress-info">
+          <div>
+            <h3>Progress Minggu Ini</h3>
+            <p id="progressSub">0 dari 0 tugas telah selesai</p>
+          </div>
+          <span class="progress-pct" id="progressPct">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-steps" id="progressSteps"></div>
+      </section>
+
+      <!-- Tasks -->
+      <section class="tasks-section">
+        <div class="tasks-head">
+          <div>
+            <h3 id="taskSectionTitle">Tugas Terbaru</h3>
+            <p class="tasks-sub" id="taskSectionSub">Kelola dan selesaikan tugasmu satu per satu.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="addTaskBtnTop"><span class="plus">+</span> Tambah</button>
+        </div>
+
+        <div class="filter-row">
+          <div class="tabs" id="filterTabs">
+            <button class="tab active" data-filter="all">Semua</button>
+            <button class="tab" data-filter="today">Hari Ini</button>
+            <button class="tab" data-filter="upcoming">Mendatang</button>
+            <button class="tab" data-filter="todo">Belum Selesai</button>
+            <button class="tab" data-filter="done">Selesai</button>
+          </div>
+          <div class="priority-filter">
+            <label for="priorityFilter">Prioritas:</label>
+            <select id="priorityFilter">
+              <option value="all">Semua</option>
+              <option value="Tinggi">Tinggi</option>
+              <option value="Sedang">Sedang</option>
+              <option value="Rendah">Rendah</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+
+        <div class="empty-state hidden" id="emptyState">
+          <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="145" rx="60" ry="10" fill="#E2E8F0"/>
+            <rect x="55" y="20" width="90" height="110" rx="14" fill="#fff" stroke="#E2E8F0" stroke-width="3"/>
+            <rect x="70" y="38" width="60" height="10" rx="5" fill="#C7D2FE"/>
+            <rect x="70" y="54" width="60" height="8" rx="4" fill="#F1F5F9"/>
+            <rect x="70" y="66" width="45" height="8" rx="4" fill="#F1F5F9"/>
+            <circle cx="100" cy="105" r="18" fill="#EEF2FF"/>
+            <path d="M93 105l5 5 9-11" stroke="#4F46E5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h4 id="emptyTitle">Belum ada tugas</h4>
+          <p id="emptyText">Tambahkan tugas pertamamu dan mulai atur kegiatan belajar.</p>
+          <button class="btn btn-primary" id="addTaskBtnEmpty"><span class="plus">+</span> Tambah Tugas</button>
+        </div>
+
+        <p class="not-found hidden" id="notFound">🔍 Tugas tidak ditemukan.</p>
+      </section>
+
+      <footer class="footer">
+        <p>Study Planner © 2026 — Dibuat dengan ❤️ untuk pelajar Indonesia</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Bottom nav (mobile) -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bnav-item active" data-view="dashboard">🏠<span>Home</span></button>
+    <button class="bnav-item" data-view="all">📋<span>Tugas</span></button>
+    <button class="bnav-item fab" id="fabAdd">+<span>Tambah</span></button>
+    <button class="bnav-item" data-view="today">📅<span>Hari Ini</span></button>
+    <button class="bnav-item" data-view="done">✅<span>Selesai</span></button>
+  </nav>
+
+  <!-- ============ MODAL FORM ============ -->
+  <div class="overlay hidden" id="taskModalOverlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle">Tambah Tugas Baru</h3>
+          <p>Isi detail tugas di bawah ini.</p>
+        </div>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Tutup">✕</button>
+      </div>
+      <form id="taskForm" novalidate>
+        <div class="form-group">
+          <label for="fTitle">Nama Tugas <span class="req">*</span></label>
+          <input type="text" id="fTitle" placeholder="cth: Membuat CRUD Laravel" maxlength="80" />
+          <small class="error" id="errTitle"></small>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fSubject">Mata Pelajaran <span class="req">*</span></label>
+            <select id="fSubject">
+              <option value="">— Pilih mapel —</option>
+              <option>Pemrograman</option>
+              <option>Pemrograman Web</option>
+              <option>Bahasa Indonesia</option>
+              <option>Matematika</option>
+              <option>Bahasa Inggris</option>
+              <option>PPKn</option>
+              <option>Produktif</option>
+              <option>Lainnya</option>
+            </select>
+            <small class="error" id="errSubject"></small>
+          </div>
+          <div class="form-group">
+            <label for="fDeadline">Deadline <span class="req">*</span></label>
+            <input type="date" id="fDeadline" />
+            <small class="error" id="errDeadline"></small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fDesc">Deskripsi</label>
+          <textarea id="fDesc" rows="3" placeholder="Catatan tambahan (opsional)..." maxlength="300"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prioritas</label>
+            <div class="radio-pills" id="priorityPills">
+              <label><input type="radio" name="priority" value="Rendah" checked /><span class="pill green">Rendah</span></label>
+              <label><input type="radio" name="priority" value="Sedang" /><span class="pill amber">Sedang</span></label>
+              <label><input type="radio" name="priority" value="Tinggi" /><span class="pill red">Tinggi</span></label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <div class="radio-pills" id="statusPills">
+              <label><input type="radio" name="status" value="Belum Dikerjakan" checked /><span class="pill gray">Belum</span></label>
+              <label><input type="radio" name="status" value="Sedang Dikerjakan" /><span class="pill blue">Proses</span></label>
+              <label><input type="radio" name="status" value="Selesai" /><span class="pill green">Selesai</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelModalBtn">Batal</button>
+          <button type="submit" class="btn btn-primary" id="saveTaskBtn">Simpan Tugas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL DELETE ============ -->
+  <div class="overlay hidden" id="deleteOverlay">
+    <div class="modal modal-sm">
+      <div class="del-icon">🗑️</div>
+      <h3>Hapus tugas?</h3>
+      <p id="deleteText">Apakah kamu yakin ingin menghapus tugas ini?</p>
+      <div class="modal-actions center">
+        <button class="btn btn-ghost" id="cancelDeleteBtn">Batal</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
